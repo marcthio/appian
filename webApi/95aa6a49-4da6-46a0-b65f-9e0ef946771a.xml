@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<webApiHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>d429f96f-7520-494e-95b7-a0ab21087733</versionUuid>
+    <webApi a:uuid="95aa6a49-4da6-46a0-b65f-9e0ef946771a" name="EC_QueryClaims">
+        <a:description>This is the Web API to query expense claims</a:description>
+        <a:expression>with(
+  /*
+  * Run the "queryrecord()" function on "cons!EC_EXPENSE_RECORD_TYPE" to retrieve data for the
+  * first 50 records and store this data in a local variable named "local!records".
+  */
+  local!records: queryrecord(
+    #"_a-0000dffe-b805-8000-5130-010000010000_110938",
+    #"SYSTEM_SYSRULES_query"(
+      filter: if(
+        isnull(
+          http!request.queryParameters.comments
+        ),
+        null,
+        #"SYSTEM_SYSRULES_queryFilter"(
+          field: "comments",
+          operator: "includes",
+          value: http!request.queryParameters.comments
+        )
+      ),
+      pagingInfo: #"SYSTEM_SYSRULES_pagingInfo"(
+        startIndex: 1,
+        batchSize: 50
+      )
+    )
+  ).data,
+  /*
+  * Construct an HTTP response that contains the information that we just stored
+  * in "local!records".
+  */
+  #"SYSTEM_SYSRULES_httpResponse"(
+    /*
+    * Set an HTTP header that tells the client that the body of the response
+    * will be JSON-encoded.
+    */
+    headers: {
+      #"SYSTEM_SYSRULES_httpHeader"(
+        name: "Content-Type",
+        value: "application/json"
+      )
+    },
+    /*
+    * JSON-encode the value of "local!records" and place it in the response body.
+    */
+    body: #"SYSTEM_SYSRULES_toJson"(
+      value: local!records
+    )
+  )
+)</a:expression>
+        <a:urlAlias>query-claims</a:urlAlias>
+        <a:httpMethod>GET</a:httpMethod>
+        <a:system>false</a:system>
+    </webApi>
+    <roleMap/>
+    <typedValue>
+        <type>
+            <name>WebApiRequest?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:path/>
+                <a:body/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="d429f96f-7520-494e-95b7-a0ab21087733"/>
+    </history>
+</webApiHaul>

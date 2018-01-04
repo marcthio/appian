@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<siteHaul xmlns:a="http://www.appian.com/ae/types/2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <versionUuid>f6eafe20-d90d-4e9b-ad44-74876d30b1f3</versionUuid>
+  <site a:uuid="099d4acd-3afa-466d-bba0-4496d963dc5e" name="EC Site Manager">
+    <description>This is a site for managers</description>
+    <urlStub>ec-site-manager</urlStub>
+    <page>
+      <staticName>Tasks</staticName>
+      <description/>
+      <urlStub>tasks</urlStub>
+      <uiObject a:uuid="e7adc47e-fd42-4ea3-8895-ceb9a3520bd1" xsi:type="a:TaskReport"/>
+      <iconId>f01c</iconId>
+      <visibilityExpr>fn!true()</visibilityExpr>
+      <pageWidth>STANDARD</pageWidth>
+    </page>
+    <visibility>268435456</visibility>
+    <headerBackgroundColor/>
+    <selectedTabBackgroundColor/>
+    <faviconRef a:uuid="SYSTEM_CONTENT_SITES_DEFAULT_FAVICON" xsi:type="a:CollaborationDocument"/>
+    <faviconHref/>
+    <logoRef a:uuid="SYSTEM_CONTENT_SITES_DEFAULT_LOGO" xsi:type="a:CollaborationDocument"/>
+    <logoHref/>
+    <headerBackgroundColorExpr/>
+    <selectedTabBackgroundColorExpr/>
+    <accentColor/>
+    <accentColorExpr/>
+    <logoExpr/>
+    <faviconExpr/>
+    <showName>false</showName>
+    <tempoLinkVisibility>HIDDEN</tempoLinkVisibility>
+    <showRecordNews>false</showRecordNews>
+  </site>
+  <roleMap/>
+  <history>
+    <historyInfo versionUuid="f6eafe20-d90d-4e9b-ad44-74876d30b1f3"/>
+  </history>
+</siteHaul>

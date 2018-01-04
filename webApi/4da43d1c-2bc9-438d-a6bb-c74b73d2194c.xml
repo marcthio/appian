@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<webApiHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>626d13d0-7761-4c5e-874b-f5febac73672</versionUuid>
+    <webApi a:uuid="4da43d1c-2bc9-438d-a6bb-c74b73d2194c" name="EC_StartProcessModel">
+        <a:description>This allows external api to start the process model</a:description>
+        <a:expression>with(
+  local!value:cast(
+     'type!{urn:com:appian:types:EC_expenseClaim}EC_expenseClaim',
+    #"SYSTEM_SYSRULES_fromJson"(http!request.body)
+  ),
+  #"SYSTEM_SYSRULES_startProcess"(
+    processModel: #"_a-0000e008-511e-8000-5130-010000010000_153809",
+    processParameters: #"SYSTEM_SYSRULES_fromJson"(
+      http!request.body
+    ),
+    onSuccess: #"SYSTEM_SYSRULES_httpResponse"(
+      statusCode: 200,
+      headers: {
+        #"SYSTEM_SYSRULES_httpHeader"(name: "Content-Type", value: "application/json")
+      },
+      body: #"SYSTEM_SYSRULES_toJson_v1"(
+        fv!processInfo
+      )
+    ),
+    onError: #"SYSTEM_SYSRULES_httpResponse"(
+      statusCode: 500,
+      headers: {
+        #"SYSTEM_SYSRULES_httpHeader"(name: "Content-Type", value: "application/json")
+      },
+      body: #"SYSTEM_SYSRULES_toJson_v1"(
+        {
+          error: "There was an error starting the process"
+        }
+      )
+    )
+  )
+)</a:expression>
+        <a:urlAlias>start-process-model</a:urlAlias>
+        <a:httpMethod>POST</a:httpMethod>
+        <a:system>false</a:system>
+    </webApi>
+    <roleMap/>
+    <typedValue>
+        <type>
+            <name>WebApiRequest?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:path/>
+                <a:headers>
+                    <a:name>Content-Type</a:name>
+                    <a:value>application/json</a:value>
+                </a:headers>
+                <a:body>{}</a:body>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="626d13d0-7761-4c5e-874b-f5febac73672"/>
+    </history>
+</webApiHaul>

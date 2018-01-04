@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<siteHaul xmlns:a="http://www.appian.com/ae/types/2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <versionUuid>da4d7853-5d33-4487-92ca-aafd22c41bfd</versionUuid>
+  <site a:uuid="ee7f95df-0f71-4830-8f2f-f5ecfeaab426" name="EC Site">
+    <description>Site for employees</description>
+    <urlStub>ec-site</urlStub>
+    <page>
+      <staticName>Submit an Expense Claim</staticName>
+      <description/>
+      <urlStub>submit-an-expense-claim</urlStub>
+      <uiObject a:uuid="0002dfe6-ff56-8000-5131-010000010000" xsi:type="a:ProcessModel"/>
+      <iconId>f0d6</iconId>
+      <visibilityExpr>fn!true()</visibilityExpr>
+      <pageWidth>STANDARD</pageWidth>
+    </page>
+    <page>
+      <staticName>View Pending Claims</staticName>
+      <description/>
+      <urlStub>view-pending-claims</urlStub>
+      <uiObject a:uuid="6c016d2d-139a-473e-abda-4a6166ad8b02" xsi:type="a:RecordType">
+        <a:isSystem>false</a:isSystem>
+        <a:security>16383</a:security>
+        <a:hideLatestNews>false</a:hideLatestNews>
+        <a:isExportable>true</a:isExportable>
+      </uiObject>
+      <iconId>f06e</iconId>
+      <visibilityExpr>fn!true()</visibilityExpr>
+      <pageWidth>STANDARD</pageWidth>
+    </page>
+    <visibility>268435456</visibility>
+    <headerBackgroundColor/>
+    <selectedTabBackgroundColor/>
+    <faviconRef a:uuid="SYSTEM_CONTENT_SITES_DEFAULT_FAVICON" xsi:type="a:CollaborationDocument"/>
+    <faviconHref/>
+    <logoRef a:uuid="SYSTEM_CONTENT_SITES_DEFAULT_LOGO" xsi:type="a:CollaborationDocument"/>
+    <logoHref/>
+    <headerBackgroundColorExpr/>
+    <selectedTabBackgroundColorExpr/>
+    <accentColor/>
+    <accentColorExpr/>
+    <logoExpr/>
+    <faviconExpr/>
+    <showName>false</showName>
+    <tempoLinkVisibility>HIDDEN</tempoLinkVisibility>
+    <showRecordNews>false</showRecordNews>
+  </site>
+  <roleMap/>
+  <history>
+    <historyInfo versionUuid="da4d7853-5d33-4487-92ca-aafd22c41bfd"/>
+  </history>
+</siteHaul>

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e008-511e-8000-5130-010000010000_154624</versionUuid>
+    <rule>
+        <name>EC_myTasksReport</name>
+        <uuid>_a-0000dfe5-aeef-8000-5130-010000010000_108495</uuid>
+        <description>This is the interface to show all task reports</description>
+        <parentUuid>_a-0000dfe5-aeef-8000-5130-010000010000_108152</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>= load(
+  local!pagingInfo: #"SYSTEM_SYSRULES_pagingInfo"(
+    startIndex: 1,
+    batchSize: 5
+  ),
+  local!configuredFormatting,
+  local!statusFilter: 0,
+  with(
+    local!report: a!queryProcessAnalytics(
+      report: #"_a-0000dfe5-aeef-8000-5130-010000010000_108493",
+      query: #"SYSTEM_SYSRULES_query"(
+        pagingInfo: local!pagingInfo
+      )
+    ),
+    {
+      #"SYSTEM_SYSRULES_dropdownField"(
+        label: "Status",
+        choiceLabels: {
+          "Assigned",
+          "Accepted",
+          "Completed",
+          "Not Started"
+        },
+        choiceValues: enumerate(
+          4
+        ),
+        value: local!statusFilter,
+        saveInto: {
+          local!statusFilter,
+          a!save(
+            local!pagingInfo.startIndex,
+            1
+          )
+        }
+      ),
+      #"SYSTEM_SYSRULES_gridField"(
+        label: local!report.name,
+        instructions: local!report.description,
+        totalCount: local!report.totalCount,
+        columns: {
+          #"SYSTEM_SYSRULES_forEach"(
+            items: local!report.columnConfigs,
+            expression: with(
+              local!columnData: index(
+                local!report.data,
+                fv!item.field,
+                {}
+              ),
+              local!columnDataCount: count(
+                local!columnData
+              ),
+              #"SYSTEM_SYSRULES_gridTextColumn"(
+                label: fv!item.label,
+                field: fv!item.field,
+                data: if(
+                  local!columnDataCount &gt; 0,
+                  #"SYSTEM_SYSRULES_forEach"(
+                    items: local!columnData,
+                    expression: if(
+                      local!configuredFormatting = "TASK_STATUS",
+                      index(
+                        {
+                          "Assigned",
+                          "Accepted",
+                          "Completed",
+                          "Not Started",
+                          "Cancelled",
+                          "Paused",
+                          "Unattended",
+                          "Aborted",
+                          "Cancelled By Exception",
+                          "Submitted",
+                          "Running",
+                          "Error"
+                        },
+                        /*
+* Task status ids start with 0, so add one to reach the first index 
+*/
+                        tointeger(
+                          index(
+                            local!columnData,
+                            fv!item + 1,
+                            - 1
+                          )
+                        ),
+                        "Other"
+                      ),
+                      tostring(
+                        fv!item
+                      )
+                    )
+                  ),
+                  {}
+                ),
+                links: if(
+                  fv!item.configuredDrilldown = "TASK_DETAILS",
+                  #"SYSTEM_SYSRULES_forEach"(
+                    items: index(
+                      local!report.data,
+                      fv!item.drilldownField,
+                      {}
+                    ),
+                    expression: #"SYSTEM_SYSRULES_processTaskLink"(
+                      task: fv!item
+                    )
+                  ),
+                  null
+                )
+              )
+            )
+          )
+        },
+        value: local!pagingInfo,
+        saveInto: local!pagingInfo
+      )
+    }
+  )
+)</definition>
+        <metadataExpr></metadataExpr>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e008-511e-8000-5130-010000010000_154624"/>
+    </history>
+</contentHaul>

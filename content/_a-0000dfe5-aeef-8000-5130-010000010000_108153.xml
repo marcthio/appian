@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e008-511e-8000-5130-010000010000_154620</versionUuid>
+    <rule>
+        <name>EC_expenseClaim</name>
+        <uuid>_a-0000dfe5-aeef-8000-5130-010000010000_108153</uuid>
+        <description>This is for employees to submit their expense claim</description>
+        <parentUuid>_a-0000dfe5-aeef-8000-5130-010000010000_108152</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>with(
+  local!employeeName: #"_a-0000dfe5-aeef-8000-5130-010000010000_109185"(),
+  local!employeeId: loggedInUser(),
+  local!employeeEmail: user(loggedInUser(),"email"),
+  #"SYSTEM_SYSRULES_formLayout_v1"(
+    label: "Submit Expense Claim",
+    contents: {
+      #"SYSTEM_SYSRULES_sectionLayout_v1"(
+        label: "Welcome" &amp; " "&amp; user(loggedInUser(),"firstName")&amp;"!",
+        contents: {
+          #"SYSTEM_SYSRULES_columnsLayout"(
+            columns:{
+              #"SYSTEM_SYSRULES_columnLayout"(
+                contents:{
+                  #"SYSTEM_SYSRULES_textField"(
+                    label: "Your Name",
+                    labelPosition: "ABOVE",
+                    value: local!employeeName,
+                    saveInto: { local!employeeName,
+                    a!save(target:ri!employeeInformation.name, value:local!employeeName)
+                    },
+                    refreshAfter: "UNFOCUS",
+                    readonly: true,
+                    validations: {}
+                  )
+                }
+              ),
+              #"SYSTEM_SYSRULES_columnLayout"(
+                contents:{
+                  #"SYSTEM_SYSRULES_textField"(
+                    label: "Your ID",
+                    labelPosition: "ABOVE",
+                    value: local!employeeId,
+                    saveInto: {local!employeeId,
+                    a!save(target:ri!employeeInformation.employeeID, value:local!employeeId)
+                    },
+                    refreshAfter: "UNFOCUS",
+                    readonly: true,
+                    validations: {}
+                  )
+                }
+              ),
+              #"SYSTEM_SYSRULES_columnLayout"(
+                contents:{
+                  #"SYSTEM_SYSRULES_textField"(
+                    label: "Your Email ",
+                    labelPosition: "ABOVE",
+                    instructions: "*You will be notified on this claim via this email",
+                    value: local!employeeEmail,
+                    saveInto: {local!employeeEmail,
+                    a!save(target:ri!employeeInformation.email,value:local!employeeEmail)
+                    },
+                    refreshAfter: "UNFOCUS",
+                    readonly: true,
+                    validations: {}
+                  )
+                }
+              )
+            }
+          )
+        }
+      ),
+      #"SYSTEM_SYSRULES_sectionLayout_v1"(
+        label: "Expense Claim Form",
+        contents: {
+          #"SYSTEM_SYSRULES_columnsLayout"(
+            columns:{
+              #"SYSTEM_SYSRULES_columnLayout"(
+                contents:{
+                  #"SYSTEM_SYSRULES_dropdownField"(
+                    label: "Expense Type",
+                    labelPosition: "ABOVE",
+                    placeholderLabel: "--- Select a Value ---",
+                    choiceLabels: {"Travel", "Food",
+                      "Office Supplies",
+                      "Others"},
+                    choiceValues: {"Travel", "Food",
+                      "Office Supplies",
+                      "Others"},
+                    value: ri!claimCDT.expenseType,
+                    saveinto: ri!claimCDT.expenseType,
+                    required: true,
+                    validations: {}
+                  )
+                }
+              ),
+              #"SYSTEM_SYSRULES_columnLayout"(
+                contents:{
+                  #"SYSTEM_SYSRULES_dateField"(
+                    label: "Expense Date",
+                    labelPosition: "ABOVE",
+                    value: ri!claimCDT.expenseDate,
+                    saveInto: ri!claimCDT.expenseDate,
+                    required: true,
+                    readonly: (isnull(ri!claimCDT.expenseType)),
+                    validations: {}
+                  )
+                }
+              ),
+              #"SYSTEM_SYSRULES_columnLayout"(
+                contents:{
+                  #"SYSTEM_SYSRULES_radioButtonField"(
+                    label: "Payment Mode",
+                    labelPosition: "ABOVE",
+                    choiceLabels: {"Cash", "Debit/Credit Card"},
+                    choiceValues: {"Cash", "Card"},
+                    value: ri!claimCDT.paymentMode,
+                    saveInto: ri!claimCDT.paymentMode,
+                    required: true,
+                    disabled: (isnull(ri!claimCDT.expenseType)),
+                    choiceLayout: "STACKED",
+                    validations: {}
+                  )
+                }
+              )
+            }
+          ),
+          #"SYSTEM_SYSRULES_floatingPointField"(
+            label: "Expense Amount ($)",
+            labelPosition: "ABOVE",
+            value: ri!claimCDT.expenseAmount,
+            saveInto: ri!claimCDT.expenseAmount,
+            refreshAfter: "UNFOCUS",
+            showwhen: true,
+            required: true,
+            readonly: (isnull(ri!claimCDT.expenseType)),
+            validations: {}
+          ),
+          #"SYSTEM_SYSRULES_textField"(
+            label: "Expense Name",
+            labelPosition: "ABOVE",
+            value: ri!claimCDT.expenseName,
+            saveInto: ri!claimCDT.expenseName,
+            refreshAfter: "UNFOCUS",
+            required: true,
+            readonly: (isnull(ri!claimCDT.expenseType)),
+            masked: false,
+            validations: {}
+          ),
+          #"SYSTEM_SYSRULES_paragraphField"(
+            label: "Expense Description",
+            labelPosition: "ABOVE",
+            value: ri!claimCDT.expenseDesc,
+            saveInto: ri!claimCDT.expenseDesc,
+            refreshAfter: "UNFOCUS",
+            required: true,
+            readonly: (isnull(ri!claimCDT.expenseType)),
+            height: "MEDIUM",
+            validations: {}
+          )
+        }
+      )
+    },
+    buttons: #"SYSTEM_SYSRULES_ButtonLayout"(
+      primaryButtons: {
+        #"SYSTEM_SYSRULES_ButtonWidgetSubmit"(
+          label: "Submit",
+          style: "PRIMARY",
+          value:"pending",
+          saveInto: {ri!claimCDT.status,
+            a!save(target:ri!employeeInformation.name, value:local!employeeName),
+          a!save(target:ri!employeeInformation.employeeID, value:local!employeeId),
+          a!save(target:ri!employeeInformation.email,value:local!employeeEmail)
+          }
+        )
+      },
+      secondarybuttons: {
+        #"SYSTEM_SYSRULES_ButtonWidgetSubmit"(
+          label: "Cancel",
+          style: "SECONDARY",
+          value: true,
+          saveInto: ri!claimCDT.cancel,
+          skipvalidation: true
+        )
+      }
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>employeeInformation</name>
+            <type>
+                <name>EC_employees</name>
+                <namespace>urn:com:appian:types</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>claimCDT</name>
+            <type>
+                <name>EC_expenseClaim</name>
+                <namespace>urn:com:appian:types:EC_expenseClaim</namespace>
+            </type>
+        </namedTypedValue>
+        <metadataExpr></metadataExpr>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e008-511e-8000-5130-010000010000_154620"/>
+    </history>
+</contentHaul>

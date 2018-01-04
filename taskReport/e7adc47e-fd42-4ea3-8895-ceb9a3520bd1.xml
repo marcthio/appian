@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<taskReportHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>b706d927-e0a9-474e-9ad7-9ea34150590f</versionUuid>
+    <taskReport a:uuid="e7adc47e-fd42-4ea3-8895-ceb9a3520bd1" name="EC_myTasks">
+        <a:description>This is the report to view Tasks </a:description>
+        <a:uiExpr>#"_a-0000dfe5-aeef-8000-5130-010000010000_108495"()</a:uiExpr>
+        <a:urlStub>sDi2Yg</a:urlStub>
+    </taskReport>
+    <roleMap/>
+    <history>
+        <historyInfo versionUuid="b706d927-e0a9-474e-9ad7-9ea34150590f"/>
+    </history>
+</taskReportHaul>

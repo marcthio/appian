@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<recordTypeHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>f970674e-52c3-48a5-9b41-38d3f82b7267</versionUuid>
+    <recordType a:uuid="4467fb26-f931-4f5a-98ba-1cc592b3187d" name="0 Expense Report">
+        <a:pluralName>0 Expense Reports</a:pluralName>
+        <a:description>List of expense reports</a:description>
+        <a:urlStub>ddGeew</a:urlStub>
+        <a:source xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:ProcessModel" a:uuid="0002dfe6-ff56-8000-5131-010000010000"/>
+        <a:listViewTemplateExpr>=#"SYSTEM_SYSRULES_listViewItem"(
+  title: rf!expenseClaim.expenseItem
+ )
+ </a:listViewTemplateExpr>
+        <a:detailViewCfg>
+            <a:nameExpr>="Summary"</a:nameExpr>
+            <a:uiExpr>=#"SYSTEM_SYSRULES_dashboardLayout_v1"(
+  contents: {
+    #"SYSTEM_SYSRULES_textField"(
+      label: "Requester",
+      labelPosition: "ADJACENT",
+      value: user(touser(rf!pp.initiator), "firstName") &amp; " " &amp; user(touser(rf!pp.initiator), "lastName"),
+      readOnly: true
+    ),
+    #"SYSTEM_SYSRULES_textField"(
+      label: "Amount",
+      labelPosition: "ADJACENT",
+      value: "$"&amp;rf!expenseClaim.expenseAmount,
+      readOnly: true
+    ),
+    #"SYSTEM_SYSRULES_textField"(
+      label: "Date",
+      labelPosition: "ADJACENT",
+      value: rf!expenseClaim.expenseDate,
+      readOnly: true
+    )
+  }
+)</a:uiExpr>
+            <a:visibilityExpr>=true()</a:visibilityExpr>
+            <a:urlStub>summary</a:urlStub>
+            <a:headerExpr></a:headerExpr>
+        </a:detailViewCfg>
+        <a:defaultSortInfo>
+            <field>expenseClaim.expenseDate</field>
+            <ascending>false</ascending>
+        </a:defaultSortInfo>
+        <a:isSystem>false</a:isSystem>
+        <a:dataSrcExpr></a:dataSrcExpr>
+        <a:facetsListExpr></a:facetsListExpr>
+        <a:titleExpr></a:titleExpr>
+        <a:defaultFiltersExpr></a:defaultFiltersExpr>
+        <a:layoutType>FEED</a:layoutType>
+        <a:security>16383</a:security>
+        <a:hideLatestNews>false</a:hideLatestNews>
+        <a:isExportable>true</a:isExportable>
+    </recordType>
+    <roleMap/>
+    <history>
+        <historyInfo versionUuid="f970674e-52c3-48a5-9b41-38d3f82b7267"/>
+    </history>
+</recordTypeHaul>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<recordTypeHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>694e6c4c-5925-4011-abbe-5073450d1ddc</versionUuid>
+    <recordType a:uuid="6c016d2d-139a-473e-abda-4a6166ad8b02" name="0 User Expense Claim">
+        <a:pluralName>0 User Expense Claims</a:pluralName>
+        <a:description>This is the claim only user initiator can view</a:description>
+        <a:urlStub>AEALEQ</a:urlStub>
+        <a:source xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:DataStoreEntity" a:uuid="5667a023-83b4-4287-b212-c14330906d32@_a-0000dfe5-aeef-8000-5130-010000010000_108384"/>
+        <a:listViewTemplateExpr>#"SYSTEM_SYSRULES_recordGridLayoutColumns"(
+  columns: {
+    #"SYSTEM_SYSRULES_gridLayoutColumn"(
+      label: "Id",
+      field: "id",
+      component: #"SYSTEM_SYSRULES_recordGrid_integerField"(
+        displayValue: rf!id,
+        align: "RIGHT"
+      )
+    ),
+    #"SYSTEM_SYSRULES_gridLayoutColumn"(
+      label: "Expense Type",
+      field: "expenseType",
+      component: #"SYSTEM_SYSRULES_recordGrid_linkField"(
+        links: #"SYSTEM_SYSRULES_recordLink"(
+          label: rf!expenseType,
+          recordType: rp!type,
+          identifier: rp!id
+        )
+      )
+    ),
+    #"SYSTEM_SYSRULES_gridLayoutColumn"(
+      label: "Expense Name",
+      width: "DISTRIBUTE",
+      field: "expenseName",
+      component: #"SYSTEM_SYSRULES_recordGrid_textField"(
+        displayvalue: rf!expenseName
+      )
+    ),
+    #"SYSTEM_SYSRULES_gridLayoutColumn"(
+      label: "Expense Amount ($)",
+      field: "expenseAmount",
+      component: #"SYSTEM_SYSRULES_recordGrid_floatingPointField"(
+        displayValue: rf!expenseAmount,
+        align: "RIGHT"
+      )
+    ),
+    #"SYSTEM_SYSRULES_gridLayoutColumn"(
+      label: "Expense Date",
+      width: "DISTRIBUTE",
+      field: "expenseDate",
+      component: #"SYSTEM_SYSRULES_recordGrid_dateField"(
+        displayvalue: rf!expenseDate
+      )
+    ),
+    #"SYSTEM_SYSRULES_gridLayoutColumn"(
+      label: "Status",
+      field: "status",
+      component: #"SYSTEM_SYSRULES_recordGrid_textField"(
+        displayValue: rf!status,
+        align: null
+      )
+    ),
+    #"SYSTEM_SYSRULES_gridLayoutColumn"(
+      label: "Expense Desc",
+      field: "expenseDesc",
+      component: #"SYSTEM_SYSRULES_recordGrid_textField"(
+        displayValue: rf!expenseDesc,
+        align: null
+      )
+    )
+  },
+  pageSize: 50,
+  defaultSort: #"SYSTEM_SYSRULES_sortInfo"(
+    field: "expenseType",
+    ascending: fn!true()
+  )
+)</a:listViewTemplateExpr>
+        <a:detailViewCfg>
+            <a:nameExpr>="Summary"</a:nameExpr>
+            <a:uiExpr>=#"SYSTEM_SYSRULES_dashboardLayout_v1"(
+  contents: {
+    #"SYSTEM_SYSRULES_textField"(
+      label: "Expense Name",
+      labelPosition: "ADJACENT",
+      value: rf!expenseName,
+      readOnly: true
+    ),
+    
+    #"SYSTEM_SYSRULES_textField"(
+      label: "Expense Amount",
+      labelPosition: "ADJACENT",
+      value: "$"&amp;rf!expenseAmount,
+      readOnly: true
+    ),
+    #"SYSTEM_SYSRULES_textField"(
+      label: "Expense Description",
+      labelPosition: "ADJACENT",
+      value: rf!expenseDesc,
+      readOnly: true
+    ),
+    #"SYSTEM_SYSRULES_textField"(
+      label: "Date",
+      labelPosition: "ADJACENT",
+      value: rf!expenseDate,
+      readOnly: true
+    )
+  }
+  
+
+)</a:uiExpr>
+            <a:visibilityExpr>=true()</a:visibilityExpr>
+            <a:urlStub>summary</a:urlStub>
+            <a:headerExpr></a:headerExpr>
+            <a:relatedActionCfg>399f251a-029a-47ca-aeff-0b94d21e00cf</a:relatedActionCfg>
+            <a:relatedActionCfg>d24d5aca-07a6-4bc8-baa6-086ec718157a</a:relatedActionCfg>
+        </a:detailViewCfg>
+        <a:relatedActionCfg>
+            <a:target xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:ProcessModel" a:uuid="0002dff5-8033-8000-5131-010000010000"/>
+            <a:contextExpr>{
+  employee: null, /* EC_employees */
+  pid: rf!id
+}</a:contextExpr>
+            <a:visibilityExpr>=true()</a:visibilityExpr>
+            <a:iconId>f0e7</a:iconId>
+            <a:refId>399f251a-029a-47ca-aeff-0b94d21e00cf</a:refId>
+            <a:title></a:title>
+            <a:staticTitle>true</a:staticTitle>
+            <a:description></a:description>
+            <a:staticDescription>true</a:staticDescription>
+        </a:relatedActionCfg>
+        <a:relatedActionCfg>
+            <a:target xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:ProcessModel" a:uuid="0002dff9-79a4-8000-5131-010000010000"/>
+            <a:contextExpr>{
+  did: rf!id
+}</a:contextExpr>
+            <a:visibilityExpr>=true()</a:visibilityExpr>
+            <a:iconId>f0e7</a:iconId>
+            <a:refId>d24d5aca-07a6-4bc8-baa6-086ec718157a</a:refId>
+            <a:title></a:title>
+            <a:staticTitle>true</a:staticTitle>
+            <a:description></a:description>
+            <a:staticDescription>true</a:staticDescription>
+        </a:relatedActionCfg>
+        <a:isSystem>false</a:isSystem>
+        <a:dataSrcExpr></a:dataSrcExpr>
+        <a:facetsListExpr></a:facetsListExpr>
+        <a:titleExpr></a:titleExpr>
+        <a:defaultFiltersExpr></a:defaultFiltersExpr>
+        <a:layoutType>GRID</a:layoutType>
+        <a:security>16383</a:security>
+        <a:hideLatestNews>false</a:hideLatestNews>
+        <a:isExportable>true</a:isExportable>
+    </recordType>
+    <roleMap/>
+    <history>
+        <historyInfo versionUuid="694e6c4c-5925-4011-abbe-5073450d1ddc"/>
+    </history>
+</recordTypeHaul>
